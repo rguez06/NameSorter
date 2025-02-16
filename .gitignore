@@ -1,0 +1,17 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/NameSorter.App/.vs/NameSorter.App
+/.vs
+/NameSorter.App/NameSorter.App/bin/Debug/net8.0
+/NameSorter.App/NameSorter.App/obj/Debug/net8.0
+/NameSorter.App/NameSorter.App/obj
+/NameSorter.Tests/bin/Debug/net8.0
+/NameSorter.Tests/obj
+/NameSorter.Application/.vs
+/NameSorter.Application/bin/Debug/net8.0
+/NameSorter.Application/obj
+/NameSorter.Domain/bin/Debug/net8.0
+/NameSorter.Domain/obj/Debug/net8.0
+/NameSorter.Domain/obj
