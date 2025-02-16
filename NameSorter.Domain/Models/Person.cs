@@ -3,28 +3,28 @@
 /// <summary>
 /// Represents a person with given names and a last name.
 /// </summary>
-public class Person : IComparable
+public record Person
 {
-    public string LastName { get; set; }
-    public List<string> GivenNames { get; set; }
+    public string LastName { get; }
+    public string GivenNames { get; }
 
     public Person(string fullName)
     {
-        // Split the full name into parts based on space
-        var nameParts = fullName.Split(' ').Where(part => !string.IsNullOrEmpty(part)).ToList();
+        if (string.IsNullOrWhiteSpace(fullName))
+        {
+            throw new ArgumentException("Name cannot be empty or null.", nameof(fullName));
+        }
 
-        // Assume that the last part is the last name and others are given names
-        LastName = nameParts.Last(); // Last element is the last name
-        GivenNames = nameParts.Take(nameParts.Count - 1).ToList(); // The rest are given names
+        var parts = fullName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length < 2)
+        {
+            throw new ArgumentException($"Invalid name format: {fullName}. A name must have at least a last name and one given name.");
+        }
+
+        LastName = parts[^1] ?? string.Empty;
+        GivenNames = string.Join(" ", parts[..^1]) ?? string.Empty;
     }
 
-    public override string ToString()
-    {
-        return $"{string.Join(" ", GivenNames)} {LastName}";
-    }
-
-    public int CompareTo(object? obj)
-    {
-        throw new NotImplementedException();
-    }
+    public override string ToString() => $"{GivenNames} {LastName}";
 }
+

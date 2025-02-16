@@ -20,6 +20,38 @@ public class NameSorterTests
     }
 
     /// <summary>
+    /// Tests that an exception is thrown for invalid name formats.
+    /// </summary>
+    [Theory]
+    [InlineData("John")]
+    [InlineData(" Doe")]
+    [InlineData("Jane   ")]  // Only one name, should fail
+    public void Person_InvalidNameFormat_ThrowsArgumentException(string invalidName)
+    {
+        // Act & Assert
+        var exception = Assert.Throws<ArgumentException>(() => new Person(invalidName));
+
+        // Ensure the exception message is correct
+        Assert.Contains("Invalid name format", exception.Message);
+    }
+
+    /// <summary>
+    /// Tests if last names are correctly captured.
+    /// </summary>
+    [Fact]
+    public void Person_LastNameCapturedCorrectly()
+    {
+        var person1 = new Person("Ryan Andal Rodriguez");
+        var person2 = new Person("Shirley Anore Aran");
+        var person3 = new Person("Raja Shamikha Rodriguez");
+
+        Assert.Equal("Rodriguez", person1.LastName);
+        Assert.Equal("Aran", person2.LastName);
+        Assert.Equal("Rodriguez", person3.LastName);
+    }
+
+
+    /// <summary>
     /// Tests if names are correctly sorted and written to a file.
     /// </summary>
     [Fact]
@@ -27,22 +59,20 @@ public class NameSorterTests
     {
         var testNames = new List<string>
         {
-            "John Michael Doe",
-            "Alice Johnson",
-            "Michael Andrew Smith",
-            "John A. Doe",
-            "Zara Anne Lee",
-            "Michael B. Smith"
+            "Ryan ABC",
+            "Ryan HIJ",
+            "Ryan AAA",
+            "Ryan Zed",
+            "Ryan Ryan"
         };
 
         var expectedOrder = new List<string>
         {
-            "John A. Doe",
-            "John Michael Doe",
-            "Alice Johnson",
-            "Zara Anne Lee",
-            "Michael Andrew Smith",
-            "Michael B. Smith"
+            "Ryan AAA",
+            "Ryan ABC",
+            "Ryan HIJ",
+            "Ryan Ryan",
+            "Ryan Zed"
         };
 
         _fileServiceMock.Setup(fs => fs.ReadFileAsync(It.IsAny<string>())).ReturnsAsync(testNames);
@@ -53,20 +83,5 @@ public class NameSorterTests
         await _sorterService.SortAndWriteNamesAsync("dummyInputPath", "dummyOutputPath");
 
         _fileServiceMock.Verify(fs => fs.WriteFileAsync("dummyOutputPath", expectedOrder), Times.Once);
-    }
-
-    /// <summary>
-    /// Tests if last names are correctly captured.
-    /// </summary>
-    [Fact]
-    public void Person_LastNameCapturedCorrectly()
-    {
-        var person1 = new Person("John Michael Doe");
-        var person2 = new Person("Alice Johnson");
-        var person3 = new Person("Michael Andrew Smith");
-
-        Assert.Equal("Doe", person1.LastName);
-        Assert.Equal("Johnson", person2.LastName);
-        Assert.Equal("Smith", person3.LastName);
     }
 }

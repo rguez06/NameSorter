@@ -16,7 +16,7 @@ public class SorterService : ISorterService
     }
 
     /// <summary>
-    /// Reads names from a file, sorts them by last name, then by given names, and writes the output to a file.
+    /// Reads names from a file, sorts them by last name, then by given names, diplays in console and writes the output to a file.
     /// </summary>
     public async Task SortAndWriteNamesAsync(string inputFilePath, string outputFilePath)
     {
