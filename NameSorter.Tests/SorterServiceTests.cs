@@ -8,12 +8,12 @@ namespace NameSorter.Tests;
 /// <summary>
 /// Unit tests for NameSorter.
 /// </summary>
-public class NameSorterTests
+public class SorterServiceTests
 {
     private readonly Mock<IFileService> _fileServiceMock;
     private readonly ISorterService _sorterService;
 
-    public NameSorterTests()
+    public SorterServiceTests()
     {
         _fileServiceMock = new Mock<IFileService>();
         _sorterService = new SorterService(_fileServiceMock.Object);
