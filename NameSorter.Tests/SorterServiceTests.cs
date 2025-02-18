@@ -36,6 +36,20 @@ public class SorterServiceTests
     }
 
     /// <summary>
+    /// Tests that an exception is thrown when a person has more than 3 given names.
+    /// </summary>
+    [Fact]
+    public void Person_TooManyGivenNames_ThrowsArgumentException()
+    {
+        // Act & Assert
+        var invalidName = "Ryan 1 2 3 Rodriguez";
+        var exception = Assert.Throws<ArgumentException>(() => new Person(invalidName));
+
+        // Ensure the exception message is correct
+        Assert.Contains("A person can have at most 3 given names", exception.Message);
+    }
+
+    /// <summary>
     /// Tests if last names are correctly captured.
     /// </summary>
     [Fact]
